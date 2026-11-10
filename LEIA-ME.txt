@@ -1,0 +1,46 @@
+RadiEndo — versão 3.0-dev
+
+COMO ABRIR
+Dê duplo clique em index.html (funciona offline, sem instalar nada).
+
+TRILHA DE APRENDIZAGEM (3 etapas em sequência)
+  Etapa 1 · Normalidade   estruturas anatômicas normais (laboratório com regiões clicáveis)
+  Etapa 2 · Alterações    alterações radiográficas: cárie profunda, restauração extensa,
+                          espessamento do ligamento periodontal, radiolucidez periapical
+  Etapa 3 · Diagnóstico   fluxograma clínico: passo a passo, casos para praticar, fluxograma completo
+Cada etapa é liberada ao explorar todas as regiões da anterior (config.js: trilhaLinear).
+O PRÉ-TESTE E O PÓS-TESTE NÃO FAZEM PARTE DA PLATAFORMA (são aplicados à parte).
+
+ESTRUTURA
+  index.html           estrutura das telas
+  css/style.css        aparência
+  js/content.js        conteúdo das Etapas 1 e 2 (regiões, textos, autoavaliação, tutora)  <- edite aqui
+  js/diagnostico.js    fluxograma transcrito (árvore de decisão + 9 diagnósticos)          <- edite aqui
+  js/geometria.js      coordenadas das regiões (gerado; ver abaixo)
+  js/config.js         configurações (modo desenvolvimento, trilha, Supabase, IA)
+  js/data.js           código do participante + registro de atividades
+  js/tutor.js          tutora (hoje simulada; depois IA real)
+  js/app.js            telas e navegação
+  assets/              ilustrações esquemáticas e a figura original do fluxograma
+  supabase/schema.sql  banco da pesquisa (para usar depois)
+
+O QUE JÁ FUNCIONA
+- Código de participante (ou visitante, sem registro) e registro de eventos: páginas, regiões, respostas,
+  passos do fluxograma, casos de prática e perguntas à tutora.
+- Página #pesquisador (acrescente #pesquisador ao endereço): baixar CSV/JSON dos registros locais.
+- Casos de prática gerados a partir do fluxograma (10 casos fictícios).
+- A tutora responde sobre os diagnósticos do fluxograma e sobre os temas das Etapas 1 e 2.
+
+PENDÊNCIAS DE CONTEÚDO (decisão da autora e dos especialistas)
+- Todo o texto é PROPOSTA INICIAL ("demonstrativo") e precisa de revisão e referências.
+- Duas ramificações do fluxograma não tinham pergunta escrita (teste pulpar positivo em "dor provocada"
+  e em "sem dor"); usei perguntas deduzidas dos cartões, marcadas "em validação". Confirmar.
+- Informar a fonte bibliográfica do fluxograma.
+- Substituir as ilustrações esquemáticas por radiografias reais autorizadas (ver comentários em content.js).
+- Pontos de referência anatômicos (seio maxilar, canal mandibular, forame mentual etc.) dependem de imagem real.
+
+ANTES DE USAR COM PARTICIPANTES
+- Colocar modoDesenvolvimento: false em config.js (remove os selos de "proposta/em validação").
+- Aprovação do CEP, revisão do conteúdo por especialistas e configuração do armazenamento.
+
+PARA REGENERAR AS ILUSTRAÇÕES / REGIÕES: o script gen.py (fornecido à parte) recria assets/dente-*.svg e js/geometria.js.
