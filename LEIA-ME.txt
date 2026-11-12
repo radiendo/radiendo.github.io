@@ -1,4 +1,4 @@
-RadiEndo — versão 3.0-dev
+RadiEndo — versão 3.1-dev
 
 COMO ABRIR
 Dê duplo clique em index.html (funciona offline, sem instalar nada).
@@ -44,3 +44,17 @@ ANTES DE USAR COM PARTICIPANTES
 - Aprovação do CEP, revisão do conteúdo por especialistas e configuração do armazenamento.
 
 PARA REGENERAR AS ILUSTRAÇÕES / REGIÕES: o script gen.py (fornecido à parte) recria assets/dente-*.svg e js/geometria.js.
+
+VERSÃO 3.1: regra de persistência da resposta (mais de 30 s após o teste de sensibilidade) incluída no fluxograma:
+  - sem dor + teste positivo: persiste = pulpite irreversível assintomática; resposta breve = normalidade;
+  - dor provocada + teste positivo: cessa rápido segue para o teste periapical; persiste = pulpite irreversível
+    sintomática (extensão a confirmar com especialistas).
+  Aviso de escopo do fluxograma (AAE 2013) na Etapa 3. Para atualizar o site: arraste a pasta js para o GitHub.
+
+--- v3.2 ---
+- Etapa 1: dente esquematico + 5 regioes periapicais (imagens reais ainda "em preparacao"; a lista de estruturas e os textos ja funcionam).
+- Etapa 2: 9 alteracoes (5 novas com ilustracao esquematica: calcificacao, reabsorcao interna, externa, radiolucencia difusa, fratura).
+- config.js: limiteConclusao (0.7 = explorar 70% das regioes libera a proxima etapa; 1 = todas).
+- Tutora responde sobre qualquer estrutura/alteracao listada.
+- Lista de imagens a reunir: docs/LISTA-DE-IMAGENS.txt
+- Para atualizar no GitHub: envie as pastas js, css, assets e docs, e os arquivos index.html e LEIA-ME.txt.

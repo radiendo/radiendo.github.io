@@ -1,0 +1,22 @@
+RadiEndo - LISTA DE IMAGENS A REUNIR (versao 3.2)
+
+Formato: JPG/PNG otimizado, mesma proporcao (sugerido 4:3, ex. 1040x780),
+sem dados do paciente, com autorizacao/dispensa de TCLE conforme o CEP.
+Colocar em assets/img/ e informar src e viewBox no item correspondente
+de js/content.js (e desenhar o path de cada regiao).
+
+ETAPA 1 - NORMALIDADE (5 periapicais normais)
+ 1. Anterior superior: LD, ligamento, crista, fossa nasal, septo, espinha nasal anterior, forame incisivo
+ 2. Pre-molares/molares superiores: LD, ligamento, seio maxilar, processo zigomatico, sombra zigomatica, tuber, processo coronoide
+ 3. Anterior inferior: LD, ligamento, crista, forames linguais, tuberculos genianos
+ 4. Pre-molares inferiores: forame mentual, canal mandibular, LD e ligamento
+ 5. Molares inferiores: canal mandibular, linha obliqua externa, linha milo-hioidea, fossa submandibular
+
+ETAPA 2 - ALTERACOES (hoje ilustracoes esquematicas; ideal: 1 radiografia real de cada)
+ calcificacao pulpar; reabsorcao interna; reabsorcao externa; espessamento do ligamento;
+ radiolucencia periapical circunscrita; radiolucencia periapical difusa; carie profunda;
+ restauracao extensa; fratura radicular (escopo a confirmar)
+
+ETAPA 3 - CASOS (9 diagnosticos): ver casos gerados pelo fluxograma; imagem ilustrativa por diagnostico.
+
+PRE/POS-TESTE (Google Forms): separar imagens DIFERENTES das usadas na plataforma e nas versoes A/B.

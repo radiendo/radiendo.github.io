@@ -10,7 +10,11 @@
      ramificações não têm pergunta escrita (teste pulpar positivo
      em "Dor provocada" e em "Sem dor"). A pergunta usada aqui foi
      deduzida dos cartões; confirmar se é o critério desejado.
-   - Fonte bibliográfica do fluxograma: informar para citar.
+   - Fonte: elaborado pela autora e adaptado do guia de diagnóstico da AAE (2013).
+   - Regra da autora: dor que persiste por mais de 30 s após o teste de sensibilidade
+     indica pulpite irreversível; sem queixa de dor = assintomática; com histórico de
+     dor espontânea = sintomática. O caso "dor provocada + resposta prolongada ->
+     pulpite irreversível sintomática" é extensão a confirmar (inferido:true).
    ============================================================ */
 window.RADIENDO_DIAG = {
   start: "dor",
@@ -37,8 +41,14 @@ window.RADIENDO_DIAG = {
 
     /* Dor provocada */
     prov_pulpar: { tag: "Teste pulpar", q: "Qual é o resultado do teste de sensibilidade pulpar?", options: [
-      { label: "Positivo", caso: "Teste de sensibilidade pulpar: positivo.", next: "prov_peri" },
+      { label: "Positivo", caso: "Teste de sensibilidade pulpar: positivo.", next: "prov_resp" },
       { label: "Negativo", caso: "Teste de sensibilidade pulpar: negativo.", result: "paa" } ] },
+    prov_resp: { tag: "Resposta ao teste", inferido: true, q: "Após o teste de sensibilidade, a dor persiste por mais de 30 segundos?",
+      help: "Dor que cessa em poucos segundos sugere comprometimento reversível; dor que persiste por mais de 30 segundos sugere pulpite irreversível.",
+      options: [
+        { label: "Não, cessa em poucos segundos", caso: "A dor após o teste de sensibilidade cessou em poucos segundos.", next: "prov_peri" },
+        { label: "Sim, persiste por mais de 30 segundos", caso: "A dor após o teste de sensibilidade persistiu por mais de 30 segundos.", result: "pis",
+          clinico: "Dor provocada por estímulo térmico que persiste por mais de 30 segundos após o teste." } ] },
     prov_peri: { tag: "Teste periapical", inferido: true, q: "Como é o teste periapical (percussão)?",
       help: "Com teste pulpar positivo, o teste periapical ajuda a separar o comprometimento pulpar do periodontal.",
       options: [
@@ -47,13 +57,13 @@ window.RADIENDO_DIAG = {
 
     /* Sem dor */
     sem_pulpar: { tag: "Teste pulpar", q: "Qual é o resultado do teste de sensibilidade pulpar?", options: [
-      { label: "Positivo", caso: "Teste de sensibilidade pulpar: positivo.", next: "sem_carie" },
+      { label: "Positivo", caso: "Teste de sensibilidade pulpar: positivo.", next: "sem_resp" },
       { label: "Negativo", caso: "Teste de sensibilidade pulpar: negativo.", next: "sem_fistula" } ] },
-    sem_carie: { tag: "Cárie / exposição", inferido: true, q: "Há cárie profunda com exposição pulpar ou leve espessamento do ligamento periodontal?",
-      help: "Sem dor e com resposta positiva ao teste: diferencie um dente normal de uma pulpite assintomática pelos achados clínicos e radiográficos.",
+    sem_resp: { tag: "Resposta ao teste", q: "Após o teste de sensibilidade, a resposta persiste por mais de 30 segundos?",
+      help: "Sem queixa de dor: resposta breve indica polpa normal; resposta que persiste por mais de 30 segundos indica pulpite irreversível assintomática.",
       options: [
-        { label: "Sim", result: "pia" },
-        { label: "Não — estruturas normais", result: "norm" } ] },
+        { label: "Sim, persiste por mais de 30 segundos", caso: "A resposta ao teste de sensibilidade persistiu por mais de 30 segundos.", result: "pia" },
+        { label: "Não, resposta breve", caso: "A resposta ao teste de sensibilidade foi breve.", result: "norm" } ] },
     sem_fistula: { tag: "Fístula", q: "Há fístula?", options: [
       { label: "Sim", caso: "Há fístula.", result: "apc" },
       { label: "Não", caso: "Não há fístula.", result: "pac" } ] }

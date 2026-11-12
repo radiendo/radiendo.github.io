@@ -27,7 +27,12 @@
       const list = Object.values(DX).filter(d => gen.some(w => norm(d.nome).includes(w)));
       return { text: "Há mais de um diagnóstico com esse nome no fluxograma: " + list.map(d => d.nome).join("; ") + ". Pergunte pelo nome completo para eu detalhar os achados.", mode: "simulado" };
     }
-    // 2) conteúdo das etapas 1 e 2
+    // 2a) estruturas e alterações das etapas 1 e 2 (rótulos das regiões)
+    const L = window.RADIENDO_CONTENT.lab, found = [];
+    L.forEach(it => it.regions.forEach(r => { if (!found.some(f => f.label === r.label) && r.label.split(/[(\/]/)[0].trim().length > 3 && n.includes(norm(r.label.split(/[(]/)[0].trim()))) found.push(r); }));
+    L.forEach(it => { if (!found.length && n.includes(norm(it.title))) found.push({ label: it.title, text: it.regions[0].text }); });
+    if (found.length) return { text: found.slice(0, 2).map(r => r.label + ": " + r.text).join("\n\n"), mode: "simulado" };
+    // 2b) respostas gerais
     const m = C.replies.find(r => r.keys.some(k => n.includes(norm(k))));
     return { text: m ? m.text : C.fallback, mode: "simulado" };
   }

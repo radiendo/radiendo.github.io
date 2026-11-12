@@ -3,7 +3,7 @@
 <linearGradient id="bg" x2="0" y2="1"><stop offset="0" stop-color="#2a343b"/><stop offset=".5" stop-color="#3b474f"/><stop offset="1" stop-color="#2d383f"/></linearGradient>
 <linearGradient id="bone" x2="0" y2="1"><stop offset="0" stop-color="#7d8a91"/><stop offset="1" stop-color="#5a666d"/></linearGradient>
 <linearGradient id="tooth" x2="0" y2="1"><stop offset="0" stop-color="#c5cac6"/><stop offset=".6" stop-color="#a7afb0"/><stop offset="1" stop-color="#8b9598"/></linearGradient>
-<filter id="bl"><feGaussianBlur stdDeviation="1.6"/></filter><filter id="bl2"><feGaussianBlur stdDeviation="4"/></filter>
+<filter id="bl"><feGaussianBlur stdDeviation="1.6"/></filter><filter id="bl3"><feGaussianBlur stdDeviation="11"/></filter><filter id="bl2"><feGaussianBlur stdDeviation="4"/></filter>
 <clipPath id="ct"><path d="M205 70 Q205 45 230 42 Q260 38 290 42 Q315 45 315 70 L312 150 Q310 172 305 180 Q300 250 280 310 Q270 335 260 338 Q250 335 240 310 Q220 250 215 180 Q210 172 208 150 Z"/></clipPath><clipPath id="cl"><rect x="0" y="0" width="520" height="318"/></clipPath>
 </defs>
 <rect width="520" height="390" fill="url(#bg)"/>

@@ -18,6 +18,11 @@ G = dict(
  CARIE="M200 118 Q226 114 242 128 Q250 140 240 152 Q224 160 200 156 Z",
  REST="M213 60 Q260 50 307 60 L304 74 Q283 82 260 70 Q237 82 216 74 Z",
  LESAO="M222 346 a38 34 0 1 0 76 0 a38 34 0 1 0 -76 0 Z",
+ RINT="M240 228 a20 28 0 1 0 40 0 a20 28 0 1 0 -40 0Z",
+ REXT="M204 300 a17 15 0 1 0 34 0 a17 15 0 1 0 -34 0Z M270 326 a22 16 0 1 0 44 0 a22 16 0 1 0 -44 0Z",
+ DIFUSA="M200 348 a60 44 0 1 0 120 0 a60 44 0 1 0 -120 0 Z",
+ FRATURA="M211 236 L309 214 L310 222 L212 246 Z",
+ CALC="M256 296 L264 296 L262 322 Q260 326 258 322 Z",
  LDEND="M210 312 a14 12 0 1 0 28 0 a14 12 0 1 0 -28 0 Z M282 312 a14 12 0 1 0 28 0 a14 12 0 1 0 -28 0 Z",
 )
 G['ENAMEL'] = G['E_OUT'] + ' ' + G['E_IN']
@@ -44,7 +49,7 @@ TRAB = trab()
 def svg(variant):
     pdl = G['PDLW'] if variant == 'espessamento' else G['PDL']
     ld = G['LDW'] if variant == 'espessamento' else G['LD']
-    clip = ' clip-path="url(#cl)"' if variant == 'lesao' else ''
+    clip = ' clip-path="url(#cl)"' if variant in ('lesao','difusa') else ''
     extra = ''
     if variant == 'carie':
         extra = f'<path d="{G["CARIE"]}" fill="#11181d" opacity=".9" filter="url(#bl)" clip-path="url(#ct)"/>'
@@ -52,12 +57,21 @@ def svg(variant):
         extra = f'<path d="{G["REST"]}" fill="#fbfbf6" opacity=".97" stroke="#ffffff" stroke-width="1.5"/>'
     if variant == 'lesao':
         extra = f'<path d="{G["LESAO"]}" fill="#10171c" opacity=".88" filter="url(#bl2)"/>'
+    if variant == 'difusa':
+        extra = f'<path d="{G["DIFUSA"]}" fill="#10171c" opacity=".6" filter="url(#bl3)"/>'
+    if variant == 'reabsint':
+        extra = f'<path d="{G["RINT"]}" fill="#11181d" opacity=".95" filter="url(#bl)" clip-path="url(#ct)"/>'
+    if variant == 'reabsext':
+        extra = f'<path d="{G["REXT"]}" fill="#11181d" opacity=".93" filter="url(#bl)"/>'
+    if variant == 'fratura':
+        extra = f'<path d="{G["FRATURA"]}" fill="#0d1317" opacity=".95" clip-path="url(#ct)"/>'
+    pulp = G['CALC'] if variant == 'calcificacao' else G['CH'] + ' ' + G['CA']
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 390" role="img" aria-label="Ilustração esquemática de dente e estruturas de suporte ({variant})">
 <defs>
 <linearGradient id="bg" x2="0" y2="1"><stop offset="0" stop-color="#2a343b"/><stop offset=".5" stop-color="#3b474f"/><stop offset="1" stop-color="#2d383f"/></linearGradient>
 <linearGradient id="bone" x2="0" y2="1"><stop offset="0" stop-color="#7d8a91"/><stop offset="1" stop-color="#5a666d"/></linearGradient>
 <linearGradient id="tooth" x2="0" y2="1"><stop offset="0" stop-color="#c5cac6"/><stop offset=".6" stop-color="#a7afb0"/><stop offset="1" stop-color="#8b9598"/></linearGradient>
-<filter id="bl"><feGaussianBlur stdDeviation="1.6"/></filter><filter id="bl2"><feGaussianBlur stdDeviation="4"/></filter>
+<filter id="bl"><feGaussianBlur stdDeviation="1.6"/></filter><filter id="bl3"><feGaussianBlur stdDeviation="11"/></filter><filter id="bl2"><feGaussianBlur stdDeviation="4"/></filter>
 <clipPath id="ct"><path d="{G['T']}"/></clipPath><clipPath id="cl"><rect x="0" y="0" width="520" height="318"/></clipPath>
 </defs>
 <rect width="520" height="390" fill="url(#bg)"/>
@@ -66,14 +80,14 @@ def svg(variant):
 <path d="{pdl}" fill-rule="evenodd" fill="#161f25" opacity=".88"{clip}/>
 <path d="{ld}" fill-rule="evenodd" fill="#d9ded8" opacity=".8"{clip}/>
 <path d="{G['CREST']}" fill="#d9ded8" opacity=".78"/>
-{extra if variant=='lesao' else ''}
+{extra if variant in ('lesao','difusa') else ''}
 <path d="{G['T']}" fill="url(#tooth)"/>
 <path d="{G['ENAMEL']}" fill-rule="evenodd" fill="#f1f2ea" opacity=".95"/>
-<path d="{G['CH']} {G['CA']}" fill="#2c373e" opacity=".92"/>
-{extra if variant!='lesao' else ''}
+<path d="{pulp}" fill="#2c373e" opacity=".92"/>
+{extra if variant not in ('lesao','difusa') else ''}
 </svg>'''
 
-for v in ['normal', 'carie', 'restauracao', 'espessamento', 'lesao']:
+for v in ['normal','carie','restauracao','espessamento','lesao','calcificacao','reabsint','reabsext','difusa','fratura']:
     open(f'{OUT}/assets/dente-{v}.svg', 'w', encoding='utf-8').write(svg(v))
 js = '/* Gerado automaticamente por gen.py — coordenadas das regiões (viewBox 0 0 520 390) */\nwindow.RADIENDO_GEO = ' + json.dumps(G, ensure_ascii=False, indent=1) + ';\n'
 open(f'{OUT}/js/geometria.js', 'w', encoding='utf-8').write(js)

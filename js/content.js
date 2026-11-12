@@ -10,10 +10,14 @@
    `path` com as coordenadas da imagem; real:true remove o aviso de
    "ilustração".
 
-   LISTA PREVISTA PARA A ETAPA 1 (ainda falta imagem real):
-   pontos de referência anatômicos — seio maxilar, assoalho da cavidade
-   nasal, fossa nasal, forame incisivo, sutura intermaxilar, canal
-   mandibular, forame mentual, linha oblíqua externa, linha milo-hióidea.
+   ETAPA 1: dente esquemático + 5 regiões radiográficas (anterior
+   superior; pré-molares/molares superiores; anterior inferior;
+   pré-molares inferiores; molares inferiores). Itens com src:null
+   aparecem como "imagem em preparação": a lista de estruturas e os
+   textos já funcionam; quando a radiografia real estiver disponível,
+   informe src/viewBox e desenhe o path de cada região.
+   ETAPA 2: 9 alterações (4 + 5 novas). Itens com `nota` mostram um
+   aviso (ex.: achado fora do fluxograma).
    ============================================================ */
 (function () {
   const G = window.RADIENDO_GEO;
@@ -23,10 +27,10 @@
     stages: {
       1: { title: "Normalidade", short: "Etapa 1", icon: "◎",
         goal: "Reconhecer as estruturas anatômicas normais de um dente e de seus tecidos de suporte na radiografia periapical.",
-        how: "Clique em cada região da imagem. Ao explorar todas, a Etapa 2 é liberada." },
+        how: "Clique em cada região da imagem. Ao explorar a maior parte das regiões, a Etapa 2 é liberada." },
       2: { title: "Alterações", short: "Etapa 2", icon: "△",
         goal: "Reconhecer as alterações radiográficas que afetam essas estruturas e que podem ter interesse endodôntico.",
-        how: "Explore cada alteração e compare com a normalidade. Ao explorar todas, a Etapa 3 é liberada." },
+        how: "Explore cada alteração e compare com a normalidade. Ao explorar a maior parte, a Etapa 3 é liberada." },
       3: { title: "Diagnóstico endodôntico", short: "Etapa 3", icon: "✧",
         goal: "Integrar queixa, testes clínicos e achados radiográficos para chegar a um diagnóstico endodôntico.",
         how: "Percorra o fluxograma passo a passo e pratique com casos clínicos." }
@@ -56,6 +60,82 @@
             text: "Espaço radiolúcido no interior da coroa, ocupado pelo tecido pulpar. Com a idade, a deposição de dentina reduz progressivamente seu volume." },
           { id: "canal", label: "Canal radicular", path: G.CA,
             text: "Continuação radiolúcida da câmara pulpar pela raiz, que se afila em direção ao ápice. Acompanhá-lo até o ápice faz parte da avaliação; variações como canais adicionais ou curvaturas nem sempre aparecem em uma única incidência." }
+        ] },
+
+      { id: "ant_sup", stage: 1, title: "Região anterior superior", real: false, status: "demo",
+        src: null, viewBox: "0 0 520 390",
+        caption: "Periapical de incisivos e caninos superiores (imagem em preparação)",
+        regions: [
+          { id: "ldp", label: "Lâmina dura e ligamento periodontal", path: null,
+            text: "A lâmina dura é a linha radiopaca do alvéolo e o espaço do ligamento periodontal é a linha radiolúcida fina entre ela e a raiz. Compare a continuidade e a largura ao longo de toda a raiz." },
+          { id: "crista", label: "Crista óssea alveolar", path: null,
+            text: "Margem coronal do osso alveolar, normalmente 1 a 2 mm apical à junção amelocementária, contínua com a lâmina dura." },
+          { id: "fossa", label: "Fossa nasal", path: null,
+            text: "Área radiolúcida escura acima dos ápices dos incisivos, limitada inferiormente pelo assoalho da cavidade nasal. Pode se sobrepor à região periapical e simular uma lesão." },
+          { id: "septo", label: "Septo nasal", path: null,
+            text: "Faixa radiopaca vertical na linha média, dividindo as fossas nasais." },
+          { id: "ena", label: "Espinha nasal anterior", path: null,
+            text: "Pequena projeção radiopaca em forma de V na base do septo, na linha média, acima dos incisivos centrais." },
+          { id: "forame", label: "Forame incisivo", path: null,
+            text: "Área radiolúcida arredondada ou oval entre os incisivos centrais, apical às raízes. Pode ser confundido com lesão periapical; mudar a angulação do feixe desloca sua posição em relação aos ápices, o que não ocorre com uma lesão verdadeira." }
+        ] },
+
+      { id: "post_sup", stage: 1, title: "Pré-molares e molares superiores", real: false, status: "demo",
+        src: null, viewBox: "0 0 520 390",
+        caption: "Periapical de pré-molares e molares superiores (imagem em preparação)",
+        regions: [
+          { id: "ldp", label: "Lâmina dura e ligamento periodontal", path: null,
+            text: "Acompanhe a lâmina dura e a linha radiolúcida do ligamento ao redor de cada raiz, comparando com os dentes vizinhos." },
+          { id: "seio", label: "Seio maxilar (assoalho e recessos)", path: null,
+            text: "Cavidade radiolúcida acima dos ápices, limitada por uma linha radiopaca fina (assoalho). Os recessos se estendem entre as raízes e os ápices podem parecer dentro do seio, sem que haja alteração." },
+          { id: "proc_zig", label: "Processo zigomático da maxila", path: null,
+            text: "Radiopacidade em forma de ‘U’ invertido ou ‘J’ acima dos molares, resultante do pilar zigomático." },
+          { id: "zig", label: "Sombra do osso zigomático", path: null,
+            text: "Radiopacidade difusa e homogênea que se sobrepõe à região dos molares e do seio, em geral mais evidente na região do primeiro molar." },
+          { id: "tuber", label: "Túber da maxila", path: null,
+            text: "Região posterior do rebordo, de trabeculado mais frouxo e aspecto arredondado, distal ao último molar." },
+          { id: "coronoide", label: "Processo coronoide da mandíbula", path: null,
+            text: "Radiopacidade triangular sobreposta à região do túber, mais visível com a boca bem aberta ou em incidências de molares superiores." }
+        ] },
+
+      { id: "ant_inf", stage: 1, title: "Região anterior inferior", real: false, status: "demo",
+        src: null, viewBox: "0 0 520 390",
+        caption: "Periapical de incisivos e caninos inferiores (imagem em preparação)",
+        regions: [
+          { id: "ldp", label: "Lâmina dura, ligamento periodontal e crista óssea", path: null,
+            text: "Linha radiopaca da lâmina dura, linha radiolúcida do ligamento e a crista óssea, de contorno mais fino nesta região por serem as raízes mais estreitas." },
+          { id: "forames", label: "Forames linguais", path: null,
+            text: "Pequena área radiolúcida arredondada na linha média, abaixo dos ápices dos incisivos, circundada por um halo radiopaco (canal lingual)." },
+          { id: "geniano", label: "Tubérculos genianos (apófises genis)", path: null,
+            text: "Radiopacidade em anel ou massa ao redor dos forames linguais, formada pelas inserções musculares na face lingual da sínfise." }
+        ] },
+
+      { id: "pm_inf", stage: 1, title: "Pré-molares inferiores", real: false, status: "demo",
+        src: null, viewBox: "0 0 520 390",
+        caption: "Periapical de pré-molares inferiores (imagem em preparação)",
+        regions: [
+          { id: "ldp", label: "Lâmina dura e ligamento periodontal", path: null,
+            text: "Verifique a continuidade da lâmina dura e a uniformidade do espaço periodontal em cada raiz." },
+          { id: "mentual", label: "Forame mentual", path: null,
+            text: "Área radiolúcida arredondada ou oval, geralmente entre ou abaixo dos ápices dos pré-molares, que pode simular lesão periapical. Mudar a angulação desloca sua posição em relação ao ápice." },
+          { id: "canal_m", label: "Canal mandibular (quando visível)", path: null,
+            text: "Faixa radiolúcida estreita, delimitada por duas linhas radiopacas, que segue abaixo dos ápices. Nem sempre é visível neste recorte." }
+        ] },
+
+      { id: "mol_inf", stage: 1, title: "Molares inferiores", real: false, status: "demo",
+        src: null, viewBox: "0 0 520 390",
+        caption: "Periapical de molares inferiores (imagem em preparação)",
+        regions: [
+          { id: "ldp", label: "Lâmina dura e ligamento periodontal", path: null,
+            text: "Acompanhe as raízes mesial e distal e a região de furca, comparando a continuidade e a largura do ligamento." },
+          { id: "canal_m", label: "Canal mandibular", path: null,
+            text: "Faixa radiolúcida delimitada por linhas radiopacas, abaixo dos ápices. A proximidade dos ápices é relevante, mas a sobreposição pode ser apenas projeção." },
+          { id: "obliqua", label: "Linha oblíqua externa", path: null,
+            text: "Faixa radiopaca que se estende diagonalmente sobre a região dos molares, correspondente à crista óssea na face externa da mandíbula." },
+          { id: "milo", label: "Linha milo-hióidea", path: null,
+            text: "Faixa radiopaca mais baixa e mais nítida que a linha oblíqua, em geral cruza a região dos ápices dos molares. Pode ser confundida com limite de lesão." },
+          { id: "fossa_sub", label: "Fossa submandibular", path: null,
+            text: "Região de trabeculado mais frouxo e menor densidade abaixo da linha milo-hióidea, que pode parecer uma rarefação." }
         ] },
 
       { id: "carie", stage: 2, title: "Cárie profunda", real: false, status: "demo",
@@ -91,15 +171,54 @@
             text: "Neste exemplo a lâmina dura continua visível ao redor de toda a raiz. A manutenção da continuidade ajuda a diferenciar o espessamento do ligamento de perdas ósseas mais avançadas." }
         ] },
 
-      { id: "lesao", stage: 2, title: "Radiolucidez periapical", real: false, status: "demo",
+      { id: "lesao", stage: 2, title: "Radiolucência periapical circunscrita", real: false, status: "demo",
         src: "assets/dente-lesao.svg", viewBox: "0 0 520 390",
-        caption: "Ilustração esquemática: área radiolúcida periapical com perda da lâmina dura apical",
+        caption: "Ilustração esquemática: radiolucência periapical arredondada e bem delimitada, com perda da lâmina dura apical",
         diagnoses: ["apc", "pac"],
         regions: [
           { id: "lesao", label: "Área radiolúcida periapical", path: G.LESAO,
             text: "Área escura ao redor do ápice, associada à perda óssea de origem inflamatória. Radiograficamente, lesões periapicais diferentes podem ter aspecto parecido, então a correlação clínica é indispensável. A perda mineral precisa ser suficiente para aparecer: nas fases iniciais a radiografia pode estar normal ou apenas com leve espessamento do ligamento." },
           { id: "ldend", label: "Lâmina dura (interrompida no ápice)", path: G.LDEND,
             text: "Perceba onde a lâmina dura deixa de ser visualizada: na região periapical afetada, a linha radiopaca perde a continuidade." }
+        ] },
+      { id: "calcificacao", stage: 2, title: "Calcificação pulpar", real: false, status: "demo",
+        src: "assets/dente-calcificacao.svg", viewBox: "0 0 520 390",
+        caption: "Ilustração esquemática: obliteração da câmara e do canal, restando fino traço apical",
+        nota: "Achado fora do fluxograma da Etapa 3: serve para reconhecer a variação, não para diagnosticar.",
+        regions: [
+          { id: "calc", label: "Câmara e canal obliterados", path: G.CALC,
+            text: "Redução parcial ou total da luz da câmara e do canal por deposição de tecido mineralizado. A câmara deixa de ser visível e o canal fica fino ou invisível. Pode ocorrer com a idade, após trauma ou irritação crônica e, isoladamente, não indica doença pulpar nem define diagnóstico." }
+        ] },
+      { id: "reabsint", stage: 2, title: "Reabsorção interna", real: false, status: "demo",
+        src: "assets/dente-reabsint.svg", viewBox: "0 0 520 390",
+        caption: "Ilustração esquemática: ampliação arredondada, em balão, do canal radicular",
+        nota: "Achado fora do fluxograma da Etapa 3: reconhecer e diferenciar da reabsorção externa.",
+        regions: [
+          { id: "rint", label: "Ampliação do canal em forma de balão", path: G.RINT,
+            text: "Área radiolúcida arredondada ou oval contínua com o canal, que o amplia de forma simétrica. A imagem permanece centrada no canal quando a angulação do feixe muda, o que a diferencia da reabsorção externa." }
+        ] },
+      { id: "reabsext", stage: 2, title: "Reabsorção externa", real: false, status: "demo",
+        src: "assets/dente-reabsext.svg", viewBox: "0 0 520 390",
+        caption: "Ilustração esquemática: perda do contorno radicular na região apical e lateral",
+        nota: "Achado fora do fluxograma da Etapa 3: reconhecer e diferenciar da reabsorção interna.",
+        regions: [
+          { id: "rext", label: "Perda do contorno radicular", path: G.REXT,
+            text: "Perda de substância na superfície externa da raiz, com contorno irregular ou ‘em mordida’, que pode atingir a região apical ou lateral. O canal costuma manter seu trajeto. A imagem se desloca em relação ao canal quando a angulação muda." }
+        ] },
+      { id: "difusa", stage: 2, title: "Radiolucência periapical difusa", real: false, status: "demo",
+        src: "assets/dente-difusa.svg", viewBox: "0 0 520 390",
+        caption: "Ilustração esquemática: área radiolúcida periapical de limites mal definidos", diagnoses: ["aaa", "paa"],
+        regions: [
+          { id: "dif", label: "Radiolucência de limites imprecisos", path: G.DIFUSA,
+            text: "Área escura periapical sem limite nítido, que se funde gradualmente ao osso vizinho. Em quadros agudos a radiografia pode estar normal ou com leve espessamento do ligamento, pois a perda mineral ainda é insuficiente para aparecer. A ausência de imagem não exclui doença periapical." }
+        ] },
+      { id: "fratura", stage: 2, title: "Fratura radicular", real: false, status: "demo",
+        src: "assets/dente-fratura.svg", viewBox: "0 0 520 390",
+        caption: "Ilustração esquemática: linha radiolúcida oblíqua atravessando a raiz",
+        nota: "Achado fora do fluxograma da Etapa 3 (escopo a confirmar com os especialistas).",
+        regions: [
+          { id: "frat", label: "Linha de fratura", path: G.FRATURA,
+            text: "Linha radiolúcida fina que atravessa a raiz, em geral nítida nas fraturas horizontais e oblíquas quando o feixe incide paralelo ao plano da fratura. Fraturas verticais nem sempre são visíveis; pode haver apenas alargamento ligamentar localizado ou lesão lateral." }
         ] }
     ],
 

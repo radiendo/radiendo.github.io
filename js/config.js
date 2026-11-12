@@ -8,9 +8,11 @@
      supabaseKey: "SUA-CHAVE-ANON-PUBLICA"   (nunca a service_role!)
    ============================================================ */
 window.RADIENDO_CONFIG = {
-  versao: "3.0-dev",
+  versao: "3.2-dev",
   // true: as etapas liberam em sequência (1 -> 2 -> 3). false: tudo aberto.
   trilhaLinear: true,
+  // Fração das regiões que o aluno precisa explorar para liberar a próxima etapa (0 a 1).
+  limiteConclusao: 0.7,
   // true: mostra selos "demonstrativo" / "em validação". Colocar false antes de usar com participantes.
   modoDesenvolvimento: true,
   supabaseUrl: "",

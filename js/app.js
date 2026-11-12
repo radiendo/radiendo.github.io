@@ -44,7 +44,8 @@
   const seen = n => pload()["e" + n] || [];
   function mark(n, id) { const p = pload(); p["e" + n] = p["e" + n] || []; if (p["e" + n].includes(id)) return false; p["e" + n].push(id); psave(); return true; }
   const total = n => C.lab.filter(l => l.stage === n).reduce((a, l) => a + l.regions.length, 0);
-  const isDone = n => seen(n).length >= total(n);
+  const need = n => Math.ceil(total(n) * (CFG.limiteConclusao || 1));
+  const isDone = n => seen(n).length >= need(n);
   function unlocked(n) { if (!CFG.trilhaLinear || n === 1) return true; return isDone(n - 1); }
   function nextStage() { for (let n = 1; n <= 3; n++) if (n === 3 ? unlocked(3) : (!isDone(n))) return n; return 3; }
 
@@ -81,7 +82,7 @@
         h("p", {}, CFG.trilhaLinear ? "Cada etapa é liberada ao concluir a anterior." : "Você pode navegar livremente entre as etapas."))),
       h("div", { class: "stage-grid" }, [1, 2, 3].map(n => {
         const S = C.stages[n], lock = !unlocked(n);
-        const state = lock ? "🔒 Conclua a etapa anterior" : (n < 3 ? (isDone(n) ? "✓ Concluída" : seen(n).length + " de " + total(n) + " regiões exploradas") : "Disponível");
+        const state = lock ? "🔒 Conclua a etapa anterior" : (n < 3 ? (isDone(n) ? "✓ Concluída" : seen(n).length + " de " + total(n) + " regiões exploradas (mínimo " + need(n) + ")") : "Disponível");
         return h("article", { class: "card stage-card" + (lock ? " locked" : "") },
           h("div", { class: "num" }, S.short.toUpperCase()), h("h3", {}, S.title), h("p", {}, S.goal),
           n < 3 ? h("div", { class: "bar" }, h("i", { style: "width:" + Math.round(100 * seen(n).length / total(n)) + "%" })) : null,
@@ -101,10 +102,11 @@
     const items = C.lab.filter(l => l.stage === n);
     const st = ls[n]; const it = items[st.item];
     const stage = h("div", { class: "stage", style: "aspect-ratio:" + it.viewBox.split(" ").slice(2).join("/") });
-    stage.append(h("img", { src: it.src, alt: it.title, draggable: "false" }));
+    if (it.src) stage.append(h("img", { src: it.src, alt: it.title, draggable: "false" }));
+    else stage.append(h("div", { class: "ph" }, h("strong", {}, "Imagem em preparação"), h("span", {}, "Use a lista de estruturas ao lado para estudar esta região.")));
     const svg = document.createElementNS(NS, "svg");
     svg.setAttribute("viewBox", it.viewBox); svg.setAttribute("class", "ov"); svg.setAttribute("aria-label", "Regiões clicáveis");
-    it.regions.forEach(r => {
+    it.regions.filter(r => r.path).forEach(r => {
       const p = document.createElementNS(NS, "path");
       p.setAttribute("d", r.path); p.setAttribute("class", "hotspot" + (st.region === r.id ? " selected" : ""));
       p.setAttribute("tabindex", "0"); p.setAttribute("role", "button"); p.setAttribute("aria-label", r.label);
@@ -112,7 +114,7 @@
       p.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(n, r.id); } });
       svg.append(p);
     });
-    stage.append(svg);
+    if (it.src) stage.append(svg);
 
     const reg = it.regions.find(r => r.id === st.region);
     const nSeen = seen(n).length, nTot = total(n), done = isDone(n);
@@ -120,9 +122,10 @@
       h("div", { class: "eyebrow" }, S.short + " · " + S.title), h("h1", {}, S.title),
       h("p", { class: "muted" }, S.goal + " " + S.how),
       h("div", { class: "bar" }, h("i", { style: "width:" + Math.round(100 * nSeen / nTot) + "%" })),
-      h("div", { class: "small muted", style: "margin-bottom:14px" }, nSeen + " de " + nTot + " regiões exploradas"),
+      h("div", { class: "small muted", style: "margin-bottom:14px" }, nSeen + " de " + nTot + " regiões exploradas · mínimo para liberar a próxima etapa: " + need(n)),
       done ? h("div", { class: "banner" }, h("span", {}, n < 3 ? "✓ Etapa concluída! A próxima etapa está liberada." : ""), h("button", { class: "btn", onclick: () => go("etapa" + (n + 1)) }, "Ir para a Etapa " + (n + 1) + "  →")) : null,
-      it.real ? null : h("div", { class: "notice", style: "margin:12px 0" }, "Ilustração esquemática criada para fins didáticos. Não é uma radiografia clínica real nem representa um caso de paciente."),
+      it.nota ? h("div", { class: "notice", style: "margin:12px 0" }, it.nota) : null,
+      it.real || !it.src ? null : h("div", { class: "notice", style: "margin:12px 0" }, "Ilustração esquemática criada para fins didáticos. Não é uma radiografia clínica real nem representa um caso de paciente."),
       items.length > 1 ? h("div", { class: "pill-row" }, items.map((x, i) =>
         h("button", { class: i === st.item ? "active" : "", onclick: () => { ls[n] = { item: i, region: null }; D.log("lab_image", { stage: n, image: x.id }); renderStage(n); } }, x.title))) : null,
       h("div", { class: "lab-layout" },
@@ -185,6 +188,7 @@
     put(root,
       h("div", { class: "eyebrow" }, S.short + " · " + S.title), h("h1", {}, S.title),
       h("p", { class: "muted" }, S.goal + " " + S.how),
+      h("div", { class: "notice", style: "margin-top:10px" }, "Escopo do fluxograma: adaptado do guia de diagnóstico da AAE (2013). Cada dente recebe um rótulo único (pulpar e apical juntos). Não inclui necrose pulpar sem alteração periapical, osteíte condensante nem dentes já tratados."),
       h("div", { class: "tabs" }, tabs.map(([k, t]) => h("button", { class: tab3 === k ? "active" : "", onclick: () => { tab3 = k; D.log("dx_tab", { tab: k }); renderStage3(); } }, t))),
       tab3 === "passo" ? wizardView() : tab3 === "casos" ? casesView() : flowView());
   }
@@ -212,11 +216,11 @@
         wz.steps.length ? h("button", { class: "btn ghost", onclick: () => { wz.steps.pop(); renderStage3(); } }, "← Voltar um passo") : null,
         wz.steps.length ? h("button", { class: "btn ghost", onclick: () => { wz = { steps: [], result: null }; renderStage3(); } }, "Recomeçar") : null));
   }
-  function infoGrid(d) {
+  function infoGrid(d, clinico) {
     return h("div", { class: "info3" },
       h("div", {}, h("h4", {}, "Teste periapical"), h("p", {}, d.periapical)),
       h("div", {}, h("h4", {}, "Achados radiográficos"), h("p", {}, d.radio)),
-      h("div", {}, h("h4", {}, "Achado clínico"), h("p", {}, d.clinico)));
+      h("div", {}, h("h4", {}, "Achado clínico"), h("p", {}, clinico || d.clinico)));
   }
   function resultCard(id) {
     const d = DG.dx[id];
@@ -224,7 +228,7 @@
     return h("div", { class: "card" },
       crumbsOf(wz.steps),
       h("div", { class: "dx-head", style: "border-color:" + d.cor }, h("div", { class: "eyebrow" }, "Diagnóstico sugerido pelo fluxograma"), h("h2", {}, d.nome), inferred ? devBadge("ramificação em validação") : null),
-      infoGrid(d),
+      infoGrid(d, (wz.steps[wz.steps.length - 1].opt || {}).clinico),
       h("div", { class: "two-col" },
         h("div", {}, h("h4", { style: "margin:0 0 6px" }, "Como isso aparece na imagem"), h("img", { class: "dx-img", src: "assets/dente-" + d.img + ".svg", alt: "Ilustração esquemática: " + d.nome }),
           h("div", { class: "small muted", style: "margin-top:6px" }, "Ilustração esquemática, apenas para orientar.")),
@@ -264,7 +268,7 @@
         h("p", {}, h("b", {}, "Anamnese e testes: "), "Paciente fictício. " + sentences),
         h("p", {}, h("b", {}, "Teste periapical (percussão): "), d.periapical),
         h("p", {}, h("b", {}, "Achados radiográficos: "), d.radio),
-        h("p", {}, h("b", {}, "Exame clínico: "), d.clinico)),
+        h("p", {}, h("b", {}, "Exame clínico: "), c.path[c.path.length - 1].opt.clinico || d.clinico)),
       h("h3", {}, "Qual é o diagnóstico endodôntico?"),
       h("div", { class: "opts cols" }, Object.entries(DG.dx).map(([id, x]) => h("button", { disabled: a && (a.ok || a.revealed), onclick: () => answerCase(id) }, x.nome))));
     if (a && a.ok) card.append(h("div", { class: "feedback show good" }, "Correto! ", h("b", {}, d.nome), "."), crumbsOf(c.path));
