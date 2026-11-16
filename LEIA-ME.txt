@@ -58,3 +58,32 @@ VERSÃO 3.1: regra de persistência da resposta (mais de 30 s após o teste de s
 - Tutora responde sobre qualquer estrutura/alteracao listada.
 - Lista de imagens a reunir: docs/LISTA-DE-IMAGENS.txt
 - Para atualizar no GitHub: envie as pastas js, css, assets e docs, e os arquivos index.html e LEIA-ME.txt.
+
+============================================================
+VERSÃO 4.0 · TUTORA COM BUSCA SEMÂNTICA + ABA REFERÊNCIAS
+============================================================
+COMO ATUALIZAR NO GITHUB (repositório radiendo.github.io)
+1. Descompacte o zip no computador.
+2. No repositório: Add file > Upload files.
+3. Arraste as PASTAS js e css e os ARQUIVOS index.html, admin.html e LEIA-ME.txt
+   (as pastas assets, docs e supabase só precisam ir se forem novas).
+4. Commit changes. Em 1-2 minutos o site atualiza (Ctrl+F5 para limpar o cache).
+
+O QUE MUDOU
+- Tutora virtual: o aluno digita uma pergunta e recebe os trechos mais
+  relevantes da base de conhecimento (resumos da pesquisadora), cada um com
+  a referência. Não gera respostas e diz "não localizei conteúdo adequado"
+  quando nada é próximo o bastante.
+- Nova aba "Referências" (lista completa + eixos).
+- admin.html: cadastrar/editar/excluir referências, eixos e trechos;
+  testar perguntas e baixar CSV; exportar o arquivo js/biblioteca.js.
+  A página NÃO altera o site sozinha: exporte e envie o biblioteca.js.
+
+COMO FUNCIONA A BUSCA
+- Modelo gratuito multilingual-e5-small rodando no navegador (Transformers.js).
+  Baixa ~100 MB na 1a vez de cada navegador (depois fica guardado).
+- Se o modelo não carregar (internet/firewall), o site usa busca por palavras
+  automaticamente, e avisa o aluno.
+- O laboratório precisa liberar: cdn.jsdelivr.net e huggingface.co
+  (e subdomínios hf.co / cdn-lfs). TESTE no laboratório com antecedência.
+- Limiares em js/config.js (busca.semMin etc.). Calibre com admin.html > Testar busca.

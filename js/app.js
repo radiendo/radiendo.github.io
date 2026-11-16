@@ -29,7 +29,7 @@
 
   const PAGES = {
     home: "Início", etapa1: "Etapa 1 / Normalidade", etapa2: "Etapa 2 / Alterações",
-    etapa3: "Etapa 3 / Diagnóstico endodôntico", tutor: "Apoio / Tutora virtual", pesquisador: "Pesquisador / Registros"
+    etapa3: "Etapa 3 / Diagnóstico endodôntico", tutor: "Apoio / Tutora virtual", referencias: "Apoio / Referências", pesquisador: "Pesquisador / Registros"
   };
 
   /* ================= PROGRESSO DA TRILHA ================= */
@@ -58,6 +58,8 @@
     $("#crumb").textContent = PAGES[id]; $("#sidebar").classList.remove("open"); window.scrollTo({ top: 0 });
     if (/^etapa\d$/.test(id)) renderStage(+id.slice(5));
     if (id === "home") renderHome();
+    if (id === "referencias") renderRefs();
+    if (id === "tutor") renderTutor();
     if (id === "pesquisador") renderResearcher();
     D.log("page_view", { page: id }, id);
   }
@@ -306,23 +308,25 @@
 
   /* ================= TUTORA ================= */
   function renderTutor() {
-    const msgs = h("div", { class: "messages", id: "messages" }, h("div", { class: "bubble bot" }, T.welcome));
-    const input = h("input", { id: "chatInput", placeholder: "Digite sua dúvida...", autocomplete: "off", "aria-label": "Pergunta para a tutora" });
-    const form = h("form", { class: "chat-form" }, input, h("button", { class: "btn", type: "submit" }, "Enviar"));
-    form.addEventListener("submit", async e => {
-      e.preventDefault(); const q = input.value.trim(); if (!q) return;
-      msgs.append(h("div", { class: "bubble user" }, q)); input.value = "";
-      const wait = h("div", { class: "bubble bot typing" }, "digitando…"); msgs.append(wait); msgs.scrollTop = msgs.scrollHeight;
-      D.log("tutor_question", { text: q, context: tutorCtx });
-      const r = await T.ask(q, tutorCtx);
-      wait.className = "bubble bot"; wait.textContent = r.text; msgs.scrollTop = msgs.scrollHeight;
-      D.log("tutor_answer", { text: r.text, mode: r.mode });
-    });
-    put($("#tutor"),
-      h("div", { class: "eyebrow" }, "Apoio ao raciocínio"), h("h1", {}, "Tutora virtual"),
-      h("p", { class: "muted" }, T.mode() === "ia" ? "Tutora com inteligência artificial, restrita ao conteúdo do ambiente." : "Versão de demonstração: respostas pré-programadas e baseadas no fluxograma. Ainda não está conectada a um modelo de IA."),
-      h("div", { class: "card chat", style: "margin-top:18px" }, msgs, form,
-        h("div", { class: "small muted" }, "Não insira dados pessoais ou informações de pacientes. Suas perguntas podem ser registradas para fins da pesquisa.")));
+    let prefill = "";
+    if (tutorCtx.diagnostico && DG.dx[tutorCtx.diagnostico]) prefill = "Quais são os achados radiográficos de " + DG.dx[tutorCtx.diagnostico].nome + "?";
+    T.mount($("#tutor"), { prefill, log: (t, p) => D.log(t, p, "tutor"), verReferencias: () => go("referencias") });
+  }
+
+  /* ================= REFERÊNCIAS ================= */
+  function renderRefs() {
+    const L = window.RADIENDO_BIBLIOTECA;
+    put($("#referencias"),
+      h("div", { class: "eyebrow" }, "Base de conhecimento"), h("h1", {}, "Referências"),
+      h("p", { class: "muted" }, "Os conteúdos da tutora virtual são resumos de autoria da pesquisadora, elaborados a partir das obras abaixo. Cada trecho exibido pela tutora indica a referência de origem."),
+      h("div", { class: "card" }, L.referencias.map(r => h("div", { class: "ref-item", id: "ref-" + r.id },
+        h("div", { class: "ref-tag" }, r.tipo + " · " + r.id),
+        h("p", { class: "ref-cit" }, r.citacao),
+        r.url ? h("a", { href: r.url, target: "_blank", rel: "noopener" }, "Acessar (DOI)") : null,
+        h("div", { class: "small muted" }, "Usada nos eixos: " + L.eixos.filter(e => (e.referencias || []).includes(r.id)).map(e => e.id).join(", "))))),
+      h("h3", { style: "margin-top:22px" }, "Eixos temáticos da base"),
+      h("div", { class: "card" }, L.eixos.map(e => h("div", { class: "eixo-item" }, h("b", {}, "Eixo " + e.id + ". " + e.titulo), h("div", { class: "small muted" }, e.descricao)))),
+      h("div", { class: "small muted", style: "margin-top:12px" }, "Base v" + L.versao + " · " + L.trechos.length + " trechos · atualizada em " + L.atualizado + "."));
   }
 
   /* ================= PESQUISADOR ================= */

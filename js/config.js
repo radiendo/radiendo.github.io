@@ -8,7 +8,7 @@
      supabaseKey: "SUA-CHAVE-ANON-PUBLICA"   (nunca a service_role!)
    ============================================================ */
 window.RADIENDO_CONFIG = {
-  versao: "3.2-dev",
+  versao: "4.0-dev",
   // true: as etapas liberam em sequência (1 -> 2 -> 3). false: tudo aberto.
   trilhaLinear: true,
   // Fração das regiões que o aluno precisa explorar para liberar a próxima etapa (0 a 1).
@@ -17,6 +17,12 @@ window.RADIENDO_CONFIG = {
   modoDesenvolvimento: true,
   supabaseUrl: "",
   supabaseKey: "",
-  // Futuro: endereço da função segura que chama o modelo de IA.
-  tutorEndpoint: ""
+  // Tutora: busca semântica no navegador (sem custo, sem chave de API).
+  // Ajuste os limiares depois do teste de perguntas (admin.html > Testar busca).
+  busca: {
+    usarSemantica: true,      // false = só busca por palavras
+    semMin: 0.80,             // similaridade mínima para exibir um trecho
+    semAlta: 0.86,            // a partir daqui: "relevância alta"
+    maxResultados: 5
+  }
 };

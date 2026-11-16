@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>RadiEndo | Administração da base</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+body{padding:24px}.wrap{max-width:1100px;margin:auto}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0}.tabs button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 14px}.tabs button.on{background:var(--navy);color:#fff}
+label{display:block;font-size:12px;font-weight:700;color:var(--navy2);margin:10px 0 3px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;font:inherit}textarea{min-height:130px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.list-item{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}.list-item small{color:var(--muted)}
+.acts{display:flex;gap:6px;flex:none}.acts button{padding:5px 10px;font-size:12px}.pane{display:none}.pane.on{display:block}.hi{background:#fff9e9;border:1px solid #f2e2b6;border-radius:10px;padding:10px 12px;font-size:13px;margin:10px 0}
+table.r{border-collapse:collapse;width:100%;font-size:12px}table.r td,table.r th{border:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}.no{color:#a33}.yes{color:#17623b}
+@media(max-width:700px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<div class="eyebrow">RadiEndo · Administração</div><h1>Base de conhecimento da tutora</h1>
+<div class="hi"><b>Como funciona:</b> esta página edita uma cópia no seu navegador e <b>não altera o site sozinha</b>. Depois de editar, clique em <b>Exportar biblioteca.js</b> e envie o arquivo baixado para a pasta <code>js</code> do repositório no GitHub (substituindo o antigo). Suas alterações ficam salvas como rascunho neste navegador.</div>
+<div class="tabs" id="tabs"></div>
+
+<div class="pane" id="p-trechos"><div class="card">
+ <h3 id="tTitle">Novo trecho</h3>
+ <div class="row"><div><label>Eixo</label><select id="tEixo"></select></div><div><label>Seção (subtema)</label><input id="tSecao"></div></div>
+ <label>Título</label><input id="tTitulo">
+ <label>Texto (conteúdo usado na busca; use “• ” no início da linha para itens de lista)</label><textarea id="tTexto"></textarea>
+ <label>Referências de origem (Ctrl/Cmd para marcar mais de uma)</label><select id="tRefs" multiple size="3"></select>
+ <div style="margin-top:12px;display:flex;gap:8px"><button class="btn" id="tSalvar">Salvar trecho</button><button class="btn ghost" id="tNovo">Limpar</button></div></div>
+ <div class="card" style="margin-top:14px"><input id="tFiltro" placeholder="Filtrar trechos por palavra…"><div id="tLista"></div></div></div>
+
+<div class="pane" id="p-refs"><div class="card">
+ <h3 id="rTitle">Nova referência</h3>
+ <div class="row"><div><label>Código (ex.: RE-006-03)</label><input id="rId"></div><div><label>Tipo</label><select id="rTipo"><option>Livro</option><option>Artigo científico</option><option>Diretriz</option><option>Documento institucional</option><option>Outro</option></select></div></div>
+ <div class="row"><div><label>Ano</label><input id="rAno" type="number"></div><div><label>DOI ou link (opcional)</label><input id="rUrl" placeholder="https://doi.org/..."></div></div>
+ <label>Referência completa (como deve aparecer no site)</label><textarea id="rCit"></textarea>
+ <div style="margin-top:12px;display:flex;gap:8px"><button class="btn" id="rSalvar">Salvar referência</button><button class="btn ghost" id="rNovo">Limpar</button></div></div>
+ <div class="card" style="margin-top:14px" id="rLista"></div></div>
+
+<div class="pane" id="p-eixos"><div class="card">
+ <h3 id="eTitle">Novo eixo</h3>
+ <div class="row"><div><label>Número</label><input id="eId" type="number"></div><div><label>Título</label><input id="eTitulo"></div></div>
+ <label>Descrição</label><textarea id="eDesc" style="min-height:70px"></textarea>
+ <div style="margin-top:12px;display:flex;gap:8px"><button class="btn" id="eSalvar">Salvar eixo</button><button class="btn ghost" id="eNovo">Limpar</button></div></div>
+ <div class="card" style="margin-top:14px" id="eLista"></div></div>
+
+<div class="pane" id="p-teste"><div class="card">
+ <h3>Testar a busca</h3>
+ <p class="muted small">Cole uma pergunta por linha (por exemplo, as 20 perguntas da auditoria com os especialistas). O resultado pode ser baixado em CSV, com colunas em branco para a avaliação dos especialistas.</p>
+ <textarea id="qBox" placeholder="O que é lâmina dura?&#10;Como diferenciar granuloma de cisto?"></textarea>
+ <div class="row"><div><label>Similaridade mínima (semântica) — <span id="vMin"></span></label><input type="range" id="sMin" min="0.6" max="0.95" step="0.01"></div>
+ <div><label>Limiar de “alta” — <span id="vAlta"></span></label><input type="range" id="sAlta" min="0.6" max="0.98" step="0.01"></div></div>
+ <div class="row"><div><label>Cobertura mínima (palavras) — <span id="vLex"></span></label><input type="range" id="sLex" min="0.2" max="0.9" step="0.05"></div><div></div></div>
+ <div style="margin:12px 0;display:flex;gap:8px;flex-wrap:wrap"><button class="btn secondary" id="qModelo">Carregar modelo semântico</button><button class="btn" id="qRodar">Rodar perguntas</button><button class="btn ghost" id="qCsv">Baixar CSV</button></div>
+ <div class="small muted" id="qStatus"></div><div id="qOut" style="overflow:auto"></div></div></div>
+
+<div class="pane" id="p-export"><div class="card">
+ <h3>Exportar</h3><p class="muted">Gera o arquivo <code>biblioteca.js</code> com tudo o que está nesta página. Depois, no GitHub: pasta <b>js</b> → Add file → Upload files → envie o arquivo (substitui o anterior) → Commit.</p>
+ <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="xBaixar">Exportar biblioteca.js</button><button class="btn ghost" id="xReset">Descartar rascunho e voltar à versão publicada</button></div>
+ <div class="small muted" id="xInfo" style="margin-top:10px"></div></div></div>
+</div>
+<script src="js/config.js"></script><script src="js/biblioteca.js"></script><script src="js/busca.js"></script>
+<script>
+(function(){
+const $=s=>document.querySelector(s);const KEY="radiendo.admin.rascunho";
+const publicada=JSON.parse(JSON.stringify(window.RADIENDO_BIBLIOTECA));
+let L;try{L=JSON.parse(localStorage.getItem(KEY))}catch(e){}if(!L||!L.trechos)L=JSON.parse(JSON.stringify(publicada));
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(L))}catch(e){}info()};
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const info=()=>{$("#xInfo").textContent=L.trechos.length+" trechos · "+L.referencias.length+" referências · "+L.eixos.length+" eixos"};
+const TABS=[["trechos","Trechos"],["refs","Referências"],["eixos","Eixos"],["teste","Testar busca"],["export","Exportar"]];
+TABS.forEach(([k,n],i)=>{const b=document.createElement("button");b.textContent=n;b.dataset.k=k;b.onclick=()=>tab(k);$("#tabs").append(b)});
+function tab(k){document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id==="p-"+k));document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.k===k));}
+/* trechos */
+let tEd=null;
+function fillSel(){$("#tEixo").innerHTML=L.eixos.map(e=>`<option value="${e.id}">Eixo ${e.id} — ${esc(e.titulo)}</option>`).join("");$("#tRefs").innerHTML=L.referencias.map(r=>`<option value="${esc(r.id)}">${esc(r.id)} — ${esc(r.citacao.slice(0,70))}…</option>`).join("")}
+function tLista(){const f=$("#tFiltro").value.toLowerCase();$("#tLista").innerHTML="";L.trechos.filter(t=>!f||(t.titulo+t.texto+t.secao).toLowerCase().includes(f)).forEach(t=>{const d=document.createElement("div");d.className="list-item";d.innerHTML=`<div><b>${esc(t.titulo)}</b><br><small>${esc(t.id)} · Eixo ${t.eixo} · ${esc(t.secao)} · ${esc(t.refs.join(", "))}</small></div><div class="acts"><button class="btn ghost">Editar</button><button class="btn ghost">Excluir</button></div>`;const [a,b]=d.querySelectorAll("button");a.onclick=()=>{tEd=t.id;$("#tTitle").textContent="Editando "+t.id;$("#tEixo").value=t.eixo;$("#tSecao").value=t.secao;$("#tTitulo").value=t.titulo;$("#tTexto").value=t.texto;[...$("#tRefs").options].forEach(o=>o.selected=t.refs.includes(o.value));scrollTo({top:0,behavior:"smooth"})};b.onclick=()=>{if(confirm("Excluir este trecho?")){L.trechos=L.trechos.filter(x=>x!==t);save();tLista()}};$("#tLista").append(d)})}
+function tLimpa(){tEd=null;$("#tTitle").textContent="Novo trecho";["#tSecao","#tTitulo","#tTexto"].forEach(s=>$(s).value="");[...$("#tRefs").options].forEach(o=>o.selected=false)}
+$("#tNovo").onclick=tLimpa;$("#tFiltro").oninput=tLista;
+$("#tSalvar").onclick=()=>{const refs=[...$("#tRefs").selectedOptions].map(o=>o.value),o={eixo:+$("#tEixo").value,secao:$("#tSecao").value.trim(),titulo:$("#tTitulo").value.trim(),texto:$("#tTexto").value.trim(),refs};
+ if(!o.titulo||!o.texto)return alert("Preencha título e texto.");if(!refs.length)return alert("Marque ao menos uma referência de origem (rastreabilidade).");
+ if(tEd){Object.assign(L.trechos.find(t=>t.id===tEd),o)}else{let n=L.trechos.filter(t=>t.eixo===o.eixo).length+1,id;do{id="E"+o.eixo+"-N"+String(n++).padStart(2,"0")}while(L.trechos.some(t=>t.id===id));L.trechos.push(Object.assign({id},o))}
+ save();tLimpa();tLista()};
+/* refs */
+let rEd=null;
+function rLista(){$("#rLista").innerHTML="";L.referencias.forEach(r=>{const d=document.createElement("div");d.className="list-item";d.innerHTML=`<div><small>${esc(r.tipo)} · ${esc(r.id)}</small><br>${esc(r.citacao)}</div><div class="acts"><button class="btn ghost">Editar</button><button class="btn ghost">Excluir</button></div>`;const [a,b]=d.querySelectorAll("button");a.onclick=()=>{rEd=r.id;$("#rTitle").textContent="Editando "+r.id;$("#rId").value=r.id;$("#rTipo").value=r.tipo;$("#rAno").value=r.ano||"";$("#rUrl").value=r.url||"";$("#rCit").value=r.citacao};b.onclick=()=>{if(L.trechos.some(t=>t.refs.includes(r.id)))return alert("Há trechos que usam esta referência. Altere-os antes de excluir.");if(confirm("Excluir referência?")){L.referencias=L.referencias.filter(x=>x!==r);save();rLista();fillSel()}};$("#rLista").append(d)})}
+function rLimpa(){rEd=null;$("#rTitle").textContent="Nova referência";["#rId","#rAno","#rUrl","#rCit"].forEach(s=>$(s).value="")}
+$("#rNovo").onclick=rLimpa;
+$("#rSalvar").onclick=()=>{const o={id:$("#rId").value.trim(),tipo:$("#rTipo").value,ano:+$("#rAno").value||null,url:$("#rUrl").value.trim(),citacao:$("#rCit").value.trim()};if(!o.id||!o.citacao)return alert("Preencha código e referência.");
+ const m=o.url.match(/10\.\d{4,}\/\S+/);o.doi=m?m[0]:"";
+ if(rEd){const r=L.referencias.find(x=>x.id===rEd);const old=r.id;Object.assign(r,o);if(old!==o.id){L.trechos.forEach(t=>t.refs=t.refs.map(x=>x===old?o.id:x));L.eixos.forEach(e=>e.referencias=(e.referencias||[]).map(x=>x===old?o.id:x))}}
+ else{if(L.referencias.some(r=>r.id===o.id))return alert("Já existe esse código.");L.referencias.push(o)}
+ save();rLimpa();rLista();fillSel()};
+/* eixos */
+let eEd=null;
+function eLista(){$("#eLista").innerHTML="";L.eixos.forEach(e=>{const d=document.createElement("div");d.className="list-item";d.innerHTML=`<div><b>Eixo ${e.id}. ${esc(e.titulo)}</b><br><small>${esc(e.descricao||"")}</small></div><div class="acts"><button class="btn ghost">Editar</button><button class="btn ghost">Excluir</button></div>`;const [a,b]=d.querySelectorAll("button");a.onclick=()=>{eEd=e.id;$("#eId").value=e.id;$("#eTitulo").value=e.titulo;$("#eDesc").value=e.descricao||""};b.onclick=()=>{if(L.trechos.some(t=>t.eixo===e.id))return alert("Há trechos neste eixo.");if(confirm("Excluir eixo?")){L.eixos=L.eixos.filter(x=>x!==e);save();eLista();fillSel()}};$("#eLista").append(d)})}
+$("#eNovo").onclick=()=>{eEd=null;["#eId","#eTitulo","#eDesc"].forEach(s=>$(s).value="")};
+$("#eSalvar").onclick=()=>{const o={id:+$("#eId").value,titulo:$("#eTitulo").value.trim(),descricao:$("#eDesc").value.trim()};if(!o.id||!o.titulo)return alert("Preencha número e título.");
+ if(eEd){Object.assign(L.eixos.find(x=>x.id===eEd),o)}else{if(L.eixos.some(x=>x.id===o.id))return alert("Número já usado.");L.eixos.push(o);L.eixos.sort((a,b)=>a.id-b.id)}
+ save();$("#eNovo").click();eLista();fillSel()};
+/* exportar */
+function recalc(){L.eixos.forEach(e=>e.referencias=[...new Set(L.trechos.filter(t=>t.eixo===e.id).flatMap(t=>t.refs))].sort())}
+$("#xBaixar").onclick=()=>{recalc();L.atualizado=new Date().toISOString().slice(0,10);const head="/* RadiEndo · BASE DE CONHECIMENTO DA TUTORA (gerado por admin.html) */\n";
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([head+"window.RADIENDO_BIBLIOTECA = "+JSON.stringify(L,null,1)+";\n"],{type:"text/javascript"}));a.download="biblioteca.js";a.click()};
+$("#xReset").onclick=()=>{if(confirm("Descartar o rascunho?")){try{localStorage.removeItem(KEY)}catch(e){}location.reload()}};
+/* teste */
+const B=window.RadiBusca;let ultimo=[];
+function sl(){const c=window.RADIENDO_CONFIG.busca||{};B.init(L,c);const l=B.limiares();[["sMin","semMin","vMin"],["sAlta","semAlta","vAlta"],["sLex","lexMin","vLex"]].forEach(([s,k,v])=>{$("#"+s).value=l[k];$("#"+v).textContent=(+l[k]).toFixed(2);$("#"+s).oninput=()=>{B.setLimiares({[k]:+$("#"+s).value});$("#"+v).textContent=(+$("#"+s).value).toFixed(2)}})}
+sl();
+$("#qModelo").onclick=async()=>{$("#qModelo").disabled=true;await B.prepararSemantica(s=>$("#qStatus").textContent=s.msg);const s=B.estado();$("#qStatus").textContent=s.semantica==="pronta"?"Modelo pronto: a busca usa significado.":"Modelo indisponível aqui; busca por palavras. "+(s.erro||"");$("#qModelo").disabled=false};
+$("#qRodar").onclick=async()=>{B.reindexar(L);B.setLimiares({semMin:+$("#sMin").value,semAlta:+$("#sAlta").value,lexMin:+$("#sLex").value});const qs=$("#qBox").value.split("\n").map(x=>x.trim()).filter(Boolean);ultimo=[];let h="<table class='r'><tr><th>#</th><th>Pergunta</th><th>Modo</th><th>Melhor escore</th><th>Achou?</th><th>Trechos (relevância)</th></tr>";
+ for(const [i,q] of qs.entries()){const r=await B.buscar(q);const top=(r.candidatos||[]).slice(0,3);ultimo.push([q,r.modo,(+r.melhor).toFixed(3),r.semResultado?"não":"sim",top.map(x=>x.t.id+" "+x.t.titulo+" ["+(x.sem!=null?x.sem.toFixed(3):x.lex.toFixed(2))+(x.ok?"":" abaixo do limiar")+"]").join(" | ")]);
+  h+=`<tr><td>${i+1}</td><td>${esc(q)}</td><td>${r.modo}</td><td>${(+r.melhor).toFixed(3)}</td><td class="${r.semResultado?"no":"yes"}">${r.semResultado?"não":"sim"}</td><td>${top.map(x=>esc(x.t.id+" · "+x.t.titulo)+" ["+(x.sem!=null?x.sem.toFixed(3):x.lex.toFixed(2))+"]"+(x.ok?"":" ✗")).join("<br>")}</td></tr>`}
+ $("#qOut").innerHTML=h+"</table>"};
+$("#qCsv").onclick=()=>{const rows=[["pergunta","modo","melhor_escore","achou_conteudo","principais_trechos","avaliacao_especialista_1","avaliacao_especialista_2","observacoes"]].concat(ultimo.map(r=>r.concat(["","",""])));const csv="﻿"+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="auditoria-busca.csv";a.click()};
+fillSel();tLista();rLista();eLista();info();tab("trechos");
+})();
+</script></body></html>

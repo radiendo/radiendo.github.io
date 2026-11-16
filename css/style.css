@@ -47,3 +47,16 @@ details{margin-top:16px}details summary{cursor:pointer;font-weight:700;color:var
 @media(max-width:900px){.stage-grid,.info3{grid-template-columns:1fr}}
 .xray .stage .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:16px;background:repeating-linear-gradient(45deg,#1b252b,#1b252b 14px,#222d34 14px,#222d34 28px);color:#c9d3d8}
 .xray .stage .ph span{font-size:.85rem;opacity:.8}
+
+/* ===== Tutora (busca) e Referências ===== */
+.tt-box{margin-top:18px}.tt-form{display:flex;gap:8px}.tt-form input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:12px}
+.tt-status{margin:10px 0 4px;font-size:12px;color:var(--muted)}.tt-status.ok{color:#17623b}.tt-status.warn{color:#76571a}.tt-status.load{color:var(--blue)}
+.tt-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 14px}.chip{border:1px solid var(--line);background:var(--ice);color:var(--navy2);border-radius:999px;padding:5px 11px;font-size:12px}.chip:hover{border-color:var(--cyan)}
+.tt-card{border:1px solid var(--line);border-left:4px solid var(--cyan);border-radius:12px;padding:14px 16px;margin:12px 0;background:#fff}
+.tt-head{display:flex;gap:12px;align-items:flex-start}.tt-n{width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:12px;flex:none}
+.tt-title{flex:1;min-width:0}.tt-title strong{display:block;color:var(--navy)}.tt-title small{color:var(--muted);font-size:11px}
+.tt-rel{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap}.tt-rel.alta{background:#e8f7ef;color:#17623b}.tt-rel.media{background:#fff4d6;color:#76571a}
+.tt-text{margin:10px 0;font-size:14px}.tt-text p{margin:4px 0}.tt-text ul{margin:4px 0 4px 18px;padding:0}
+.tt-src{border-top:1px dashed var(--line);padding-top:8px;font-size:12px}.tt-ref{color:var(--ink);margin:3px 0}
+.tt-none{background:#fff9e9;border:1px solid #f2e2b6;border-radius:12px;padding:16px;color:#5f4713}
+.ref-item{padding:12px 0;border-bottom:1px solid var(--line)}.ref-item:last-child{border:0}.ref-tag{font-size:11px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px}.ref-cit{margin:4px 0 6px}.eixo-item{padding:8px 0;border-bottom:1px solid var(--line)}.eixo-item:last-child{border:0}
