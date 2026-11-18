@@ -87,3 +87,19 @@ COMO FUNCIONA A BUSCA
 - O laboratório precisa liberar: cdn.jsdelivr.net e huggingface.co
   (e subdomínios hf.co / cdn-lfs). TESTE no laboratório com antecedência.
 - Limiares em js/config.js (busca.semMin etc.). Calibre com admin.html > Testar busca.
+
+============================================================
+VERSÃO 5.0 · NOVA IDENTIDADE VISUAL ImagiEndo (só design)
+============================================================
+ARQUIVOS NOVOS
+  index.html            landing page (9 seções do briefing). Botões levam a plataforma.html
+  plataforma.html       o antigo index.html (mesma estrutura/IDs), com o tema aplicado
+  css/imagiendo-theme.css  tema escuro + verde neon; carregado DEPOIS de style.css
+  css/landing.css, js/landing.js  só da landing
+ARQUIVOS ALTERADOS (apenas textos visíveis / links de CSS)
+  admin.html  (carrega o tema)   js/app.js e js/tutor.js (nome "ImagiEndo" em 2 textos)
+NÃO ALTERADOS: data.js, busca.js, biblioteca.js, content.js, diagnostico.js, config.js, style.css, assets.
+Chaves de armazenamento (radiendo.*) foram mantidas: registros e progresso continuam compatíveis.
+Links antigos (…/#pesquisador, #etapa1…) abertos na raiz são redirecionados para plataforma.html.
+COMO PUBLICAR: envie index.html, plataforma.html, admin.html, LEIA-ME.txt e as pastas css e js ao GitHub.
+Para voltar ao visual antigo: restaure o index.html antigo (= plataforma.html sem a linha do tema).

@@ -91,7 +91,7 @@
           h("div", { class: "state" }, state),
           h("button", { class: "btn " + (n === cur ? "" : "ghost"), style: "margin-top:12px", disabled: lock, onclick: () => go("etapa" + n) }, lock ? "Bloqueada" : "Abrir"));
       })),
-      h("p", { class: "footer-note" }, "RadiEndo é um ambiente educacional em desenvolvimento. Não utilizar para diagnóstico ou atendimento de pacientes."));
+      h("p", { class: "footer-note" }, "ImagiEndo é um ambiente educacional em desenvolvimento. Não utilizar para diagnóstico ou atendimento de pacientes."));
   }
 
   /* ================= ETAPAS 1 E 2 ================= */

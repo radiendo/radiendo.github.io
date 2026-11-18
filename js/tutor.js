@@ -101,7 +101,7 @@
 
     root.replaceChildren(
       h("div", { class: "eyebrow" }, "Apoio ao raciocínio"), h("h1", {}, "Tutora virtual"),
-      h("p", { class: "muted" }, "Pergunte com suas palavras. A tutora procura, na base de conhecimento do RadiEndo, os trechos mais próximos da sua dúvida e mostra a fonte de cada um."),
+      h("p", { class: "muted" }, "Pergunte com suas palavras. A tutora procura, na base de conhecimento do ImagiEndo, os trechos mais próximos da sua dúvida e mostra a fonte de cada um."),
       h("div", { class: "card tt-box" }, form, status,
         h("div", { class: "tt-chips" }, h("span", { class: "small muted" }, "Exemplos: "), EXEMPLOS.map(x => h("button", { type: "button", class: "chip", onclick: () => { input.value = x; input.focus(); } }, x))),
         out),

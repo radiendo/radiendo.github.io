@@ -3,62 +3,249 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#071b33">
-<title>RadiEndo | Ambiente de aprendizagem</title>
-<link rel="stylesheet" href="css/style.css">
+<meta name="theme-color" content="#080D0F">
+<meta name="description" content="ImagiEndo: ambiente virtual de aprendizagem para interpretação radiográfica de interesse endodôntico, com imagens interativas, fluxograma diagnóstico e tutora virtual.">
+<title>ImagiEndo | Inteligência visual para o ensino da Endodontia</title>
+<script>
+/* Links antigos do tipo index.html#pesquisador continuam funcionando: vão para a plataforma. */
+(function(){var h=location.hash;if(/^#(home|etapa[123]|tutor|referencias|pesquisador)$/.test(h)){location.replace("plataforma.html"+h);}})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
-<div class="shell">
-<aside class="sidebar" id="sidebar">
-  <div class="brand"><div class="brand-mark"><svg viewBox="0 0 48 48" fill="none" aria-label="Símbolo de dente"><path d="M12 8C6 11 8 22 11 29c2 5 4 12 8 11 4-1 3-12 6-12s2 11 6 12c4 1 6-6 8-11 3-7 5-18-1-21-5-3-9 1-13 1S17 5 12 8Z" stroke="#55d8ea" stroke-width="2.8" stroke-linejoin="round"/><path d="M16 16c4-3 12-3 16 0" stroke="#55d8ea" stroke-width="2" stroke-linecap="round"/></svg></div><div><strong>RadiEndo</strong><small>Radiologia endodôntica</small></div></div>
-  <div class="nav-label">Ambiente de aprendizagem</div>
-  <nav class="nav" id="nav">
-    <button data-page="home"><span class="ico">⌂</span> <span class="lbl">Início</span></button>
-    <button data-page="etapa1"><span class="ico">①</span> <span class="lbl">Normalidade</span><span class="st"></span></button>
-    <button data-page="etapa2"><span class="ico">②</span> <span class="lbl">Alterações</span><span class="st"></span></button>
-    <button data-page="etapa3"><span class="ico">③</span> <span class="lbl">Diagnóstico</span><span class="st"></span></button>
-    <button data-page="tutor"><span class="ico">✧</span> <span class="lbl">Tutora virtual</span></button>
-    <button data-page="referencias"><span class="ico">❡</span> <span class="lbl">Referências</span></button>
-  </nav>
-  <div class="side-foot" id="sideFoot"></div>
-</aside>
-<main>
-<header class="topbar">
-  <div style="display:flex;align-items:center;gap:12px"><button class="mobile-menu" id="menuBtn" aria-label="Abrir menu">☰</button><span class="crumb" id="crumb"></span></div>
-  <div class="profile"><div class="avatar" id="avatar">··</div><span id="who"></span><button class="btn ghost small-btn" id="sessionBtn"></button></div>
+<a class="skip" href="#proposta">Ir para o conteúdo</a>
+
+<!-- 1. CABEÇALHO E NAVEGAÇÃO -->
+<header class="site-header" id="topo">
+  <div class="wrap bar">
+    <a class="logo" href="#inicio" aria-label="ImagiEndo, início">
+      <span class="logo-mark"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M12 8C6 11 8 22 11 29c2 5 4 12 8 11 4-1 3-12 6-12s2 11 6 12c4 1 6-6 8-11 3-7 5-18-1-21-5-3-9 1-13 1S17 5 12 8Z" stroke="#B7FF00" stroke-width="2.8" stroke-linejoin="round"/><path d="M16 16c4-3 12-3 16 0" stroke="#B7FF00" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="logo-text">ImagiEndo</span>
+    </a>
+    <nav class="menu" id="menu" aria-label="Navegação principal">
+      <a href="#proposta">Proposta</a>
+      <a href="#jornada">Jornada</a>
+      <a href="#laboratorio">Laboratório</a>
+      <a href="#tutora">Tutora virtual</a>
+      <a href="#ambiente">Ambiente</a>
+      <a class="btn btn-sm menu-cta" href="plataforma.html">Explorar plataforma</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+  </div>
 </header>
-<div class="content">
-  <section class="page" id="home"></section>
-  <section class="page" id="etapa1"></section>
-  <section class="page" id="etapa2"></section>
-  <section class="page" id="etapa3"></section>
-  <section class="page" id="tutor"></section>
-  <section class="page" id="referencias"></section>
-  <section class="page" id="pesquisador"></section>
-</div>
+
+<main>
+<!-- 2. HERO -->
+<section class="hero" id="inicio">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">EdTech · Radiologia odontológica</span>
+      <h1>Da imagem radiográfica ao <em>raciocínio diagnóstico.</em></h1>
+      <p class="lead">Uma experiência interativa para aprender a reconhecer estruturas anatômicas, identificar alterações radiográficas e desenvolver o raciocínio diagnóstico em Endodontia.</p>
+      <div class="hero-actions">
+        <a class="btn" href="plataforma.html">Explorar plataforma <span aria-hidden="true">→</span></a>
+        <a class="btn ghost" href="#jornada">Ver a jornada</a>
+      </div>
+      <ul class="hero-facts" aria-label="Destaques">
+        <li><b>3</b><span>etapas em sequência</span></li>
+        <li><b>9</b><span>alterações radiográficas</span></li>
+        <li><b>1</b><span>fluxograma clínico interativo</span></li>
+      </ul>
+    </div>
+    <div class="hero-visual" id="heroVisual" aria-hidden="true">
+      <div class="scene">
+        <div class="plane p-back"><img src="assets/dente-normal.svg" alt=""><span class="tagline">Normalidade</span></div>
+        <div class="plane p-mid"><img src="assets/dente-reabsint.svg" alt=""><span class="tagline">Alteração</span></div>
+        <div class="plane p-front">
+          <div class="mini-head"><i></i><i></i><i></i></div>
+          <div class="mini-row"><span class="dot"></span><b>Teste de sensibilidade</b></div>
+          <div class="mini-row"><span class="dot dim"></span><b>Teste periapical</b></div>
+          <div class="mini-res">Diagnóstico sugerido pelo fluxograma</div>
+        </div>
+        <span class="orb o1"></span><span class="orb o2"></span>
+        <span class="ring r1"></span>
+      </div>
+    </div>
+  </div>
+  <a class="scroll-hint" href="#proposta" aria-label="Rolar para a próxima seção"><span></span></a>
+</section>
+
+<!-- 3. PROPOSTA EDUCACIONAL -->
+<section class="section" id="proposta">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="eyebrow">Proposta educacional</span>
+      <h2>Interpretar radiografias é raciocinar, não decorar.</h2>
+      <p>O ImagiEndo aproxima a interpretação radiográfica do raciocínio diagnóstico, com conteúdo científico organizado, prática guiada e apoio à consulta de fontes.</p>
+    </header>
+    <div class="grid-3">
+      <article class="card feat">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/></svg></span>
+        <h3>Imagens interativas</h3>
+        <p>Explore regiões clicáveis nas imagens e leia a descrição de cada estrutura ou achado.</p>
+      </article>
+      <article class="card feat">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h10M4 19h16"/><circle cx="18" cy="12" r="2"/></svg></span>
+        <h3>Conteúdo científico organizado</h3>
+        <p>Textos e referências estruturados em eixos temáticos, com a fonte sempre indicada.</p>
+      </article>
+      <article class="card feat">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="4"/></svg></span>
+        <h3>Precisão e clareza</h3>
+        <p>Do reconhecimento da normalidade à decisão diagnóstica, em um percurso claro e progressivo.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 4. JORNADA EM TRÊS ETAPAS -->
+<section class="section alt" id="jornada">
+  <div class="wrap">
+    <header class="sec-head">
+      <span class="eyebrow">Jornada de aprendizagem</span>
+      <h2>Três etapas, uma sequência lógica.</h2>
+      <p>Cada etapa é liberada ao explorar a maior parte da anterior, construindo o raciocínio passo a passo.</p>
+    </header>
+    <ol class="steps">
+      <li class="card step">
+        <span class="num">01</span>
+        <h3>Normalidade</h3>
+        <p>Reconhecer as estruturas anatômicas normais do dente e de seus tecidos de suporte na radiografia periapical.</p>
+        <span class="chip">Regiões clicáveis</span>
+      </li>
+      <li class="card step">
+        <span class="num">02</span>
+        <h3>Alterações</h3>
+        <p>Identificar alterações radiográficas de interesse endodôntico e compará-las com a normalidade.</p>
+        <span class="chip">Comparação visual</span>
+      </li>
+      <li class="card step">
+        <span class="num">03</span>
+        <h3>Diagnóstico endodôntico</h3>
+        <p>Integrar queixa, testes clínicos e achados de imagem seguindo o fluxograma, com casos para praticar.</p>
+        <span class="chip">Fluxograma e casos</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 5. LABORATÓRIO DE IMAGENS INTERATIVAS -->
+<section class="section" id="laboratorio">
+  <div class="wrap lab">
+    <header class="sec-head left">
+      <span class="eyebrow">Laboratório de imagens</span>
+      <h2>Veja a alteração. Entenda o achado.</h2>
+      <p>Alterne entre exemplos e observe como cada achado aparece na imagem. Dentro da plataforma, cada região é clicável e traz sua descrição.</p>
+    </header>
+    <div class="lab-grid">
+      <div class="lab-tabs" role="tablist" aria-label="Alterações de exemplo" id="labTabs">
+        <button role="tab" class="on" aria-selected="true" data-img="carie" data-title="Cárie profunda" data-text="Área radiolúcida na coroa que se aproxima da câmara pulpar. Ajuda a avaliar a proximidade com a polpa.">Cárie profunda</button>
+        <button role="tab" aria-selected="false" data-img="lesao" data-title="Radiolucência periapical circunscrita" data-text="Área radiolúcida de contorno bem delimitado na região do ápice radicular.">Radiolucência periapical</button>
+        <button role="tab" aria-selected="false" data-img="reabsint" data-title="Reabsorção interna" data-text="Alargamento de aspecto ovalado do espaço do canal, contínuo com a luz do canal radicular.">Reabsorção interna</button>
+        <button role="tab" aria-selected="false" data-img="reabsext" data-title="Reabsorção externa" data-text="Perda de estrutura na superfície externa da raiz, com o contorno radicular alterado.">Reabsorção externa</button>
+        <button role="tab" aria-selected="false" data-img="fratura" data-title="Fratura radicular" data-text="Linha radiolúcida que atravessa a raiz, com possível afastamento dos fragmentos.">Fratura radicular</button>
+      </div>
+      <figure class="viewer card" aria-live="polite">
+        <div class="screen">
+          <img id="labImg" src="assets/dente-carie.svg" alt="Ilustração esquemática de cárie profunda">
+          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+          <span class="scan" aria-hidden="true"></span>
+        </div>
+        <figcaption>
+          <h3 id="labTitle">Cárie profunda</h3>
+          <p id="labText">Área radiolúcida na coroa que se aproxima da câmara pulpar. Ajuda a avaliar a proximidade com a polpa.</p>
+          <small>Ilustração esquemática para fins didáticos. Não é uma radiografia clínica real.</small>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 6. TUTORA VIRTUAL -->
+<section class="section alt" id="tutora">
+  <div class="wrap tutor-grid">
+    <div>
+      <header class="sec-head left">
+        <span class="eyebrow">Tutora virtual</span>
+        <h2>Pergunte com as suas palavras.</h2>
+        <p>A tutora usa busca semântica para localizar, na base de conhecimento da pesquisadora, os trechos mais próximos da sua dúvida e mostra a referência de cada um.</p>
+      </header>
+      <ul class="ticks">
+        <li>Busca por significado, não só por palavras exatas</li>
+        <li>Cada trecho exibido indica sua fonte</li>
+        <li>Quando não há conteúdo adequado, a tutora informa, sem inventar respostas</li>
+      </ul>
+    </div>
+    <div class="chat card" aria-label="Exemplo de conversa com a tutora virtual">
+      <div class="chat-top"><span class="status"></span> Tutora virtual <small>exemplo</small></div>
+      <div class="msg user">O que é a lâmina dura e como ela aparece na radiografia?</div>
+      <div class="msg bot">
+        <div class="res-head"><b>Trecho encontrado</b><span class="rel">Relevância alta</span></div>
+        <div class="skel"><i style="width:94%"></i><i style="width:78%"></i><i style="width:86%"></i></div>
+        <div class="src"><b>Fonte:</b> referência de origem do trecho</div>
+      </div>
+      <div class="input-fake"><span>Digite sua pergunta…</span><b>Buscar</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. AMBIENTE DE APRENDIZAGEM -->
+<section class="section" id="ambiente">
+  <div class="wrap env-grid">
+    <div class="app-mock card" aria-hidden="true">
+      <div class="am-side">
+        <div class="am-brand"><span></span><b>ImagiEndo</b></div>
+        <p class="on">Início</p><p>Normalidade</p><p>Alterações</p><p>Diagnóstico</p><p>Tutora virtual</p><p>Referências</p>
+      </div>
+      <div class="am-main">
+        <div class="am-hero"><i style="width:62%"></i><i style="width:44%"></i><span></span></div>
+        <div class="am-cards"><div><i></i><b></b></div><div><i></i><b></b></div><div><i></i><b></b></div></div>
+      </div>
+    </div>
+    <div>
+      <header class="sec-head left">
+        <span class="eyebrow">Ambiente de aprendizagem</span>
+        <h2>Tudo em um só lugar, no computador ou no celular.</h2>
+        <p>A plataforma reúne a trilha de estudo, a prática com casos e as fontes de consulta, com identificação anônima por código.</p>
+      </header>
+      <ul class="pills">
+        <li>Início</li><li>Normalidade</li><li>Alterações</li><li>Diagnóstico endodôntico</li><li>Tutora virtual</li><li>Referências</li>
+      </ul>
+      <p class="note">Identificação por código individual, sem nome, matrícula ou e-mail. Visitantes podem explorar sem registro de atividades.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8. CHAMADA FINAL -->
+<section class="cta" id="acesso">
+  <div class="wrap">
+    <div class="cta-box">
+      <span class="eyebrow">Pronto para começar?</span>
+      <h2>Comece pela imagem. Chegue ao diagnóstico.</h2>
+      <p>Acesse o ambiente de aprendizagem e percorra as três etapas no seu ritmo.</p>
+      <a class="btn big" href="plataforma.html">Explorar plataforma <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
 </main>
-</div>
 
-<div class="overlay" id="loginOverlay" hidden>
-  <form class="dialog" id="loginForm">
-    <div class="eyebrow">RadiEndo</div>
-    <h2>Identificação do participante</h2>
-    <p class="muted">Digite o código individual que você recebeu. Não use nome, matrícula ou e-mail.</p>
-    <input id="codeInput" placeholder="Ex.: A07" maxlength="20" autocomplete="off" aria-label="Código do participante">
-    <div class="feedback bad" id="codeError"></div>
-    <div class="dialog-actions"><button class="btn" type="submit">Entrar</button><button class="btn ghost" type="button" id="visitorBtn">Explorar como visitante</button></div>
-    <p class="small muted">Visitantes podem explorar o ambiente, mas nenhuma atividade é registrada.</p>
-  </form>
-</div>
+<!-- 9. RODAPÉ INSTITUCIONAL -->
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div>
+      <a class="logo" href="#inicio"><span class="logo-mark sm"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M12 8C6 11 8 22 11 29c2 5 4 12 8 11 4-1 3-12 6-12s2 11 6 12c4 1 6-6 8-11 3-7 5-18-1-21-5-3-9 1-13 1S17 5 12 8Z" stroke="#B7FF00" stroke-width="2.8" stroke-linejoin="round"/></svg></span><span class="logo-text">ImagiEndo</span></a>
+      <p class="sig">Inteligência visual para o ensino da Endodontia.</p>
+    </div>
+    <nav class="foot-links" aria-label="Rodapé">
+      <a href="#proposta">Proposta</a><a href="#jornada">Jornada</a><a href="#laboratorio">Laboratório</a><a href="#tutora">Tutora</a><a href="plataforma.html#referencias">Referências</a>
+    </nav>
+    <p class="legal">Ambiente educacional em desenvolvimento. Não utilizar para diagnóstico ou atendimento de pacientes. As ilustrações são esquemáticas.</p>
+  </div>
+</footer>
 
-<script src="js/config.js"></script>
-<script src="js/geometria.js"></script>
-<script src="js/content.js"></script>
-<script src="js/diagnostico.js"></script>
-<script src="js/data.js"></script>
-<script src="js/biblioteca.js"></script>
-<script src="js/busca.js"></script>
-<script src="js/tutor.js"></script>
-<script src="js/app.js"></script>
+<script src="js/landing.js"></script>
 </body>
 </html>
